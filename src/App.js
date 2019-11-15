@@ -36,8 +36,10 @@ class App extends Component {
   toggleTodoDone(e, index) {
     // console.log(e.target.checked);
     const todos = [...this.state.todos]; // copy the array
-    todos[index] = { ...todos[index] }; // copy the todo
-    todos[index].done = e.target.checked; // update done property on copied todo
+    todos[index] = { 
+      ...todos[index], 
+    done: e.target.checked // update done property on copied todo
+    }; // copy the todo
     this.setState({
       todos
     });
@@ -55,7 +57,7 @@ class App extends Component {
   allDone() {
     const todos = this.state.todos.map(todo => {
       return {
-        title: todo.title,
+        title: todo.title, //can also do ...todo
         done: true
       };
     });
