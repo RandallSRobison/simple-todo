@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import NewTodoForm from "./NewTodoForm";
+import TodoList from "./TodoList";
 import "./App.css";
 
 class App extends Component {
@@ -36,9 +38,9 @@ class App extends Component {
   toggleTodoDone(e, index) {
     // console.log(e.target.checked);
     const todos = [...this.state.todos]; // copy the array
-    todos[index] = { 
-      ...todos[index], 
-    done: e.target.checked // update done property on copied todo
+    todos[index] = {
+      ...todos[index],
+      done: e.target.checked // update done property on copied todo
     }; // copy the todo
     this.setState({
       todos
@@ -76,41 +78,18 @@ class App extends Component {
     return (
       <div className="App">
         <h1>{this.state.message}</h1>
-        <form onSubmit={this.formSubmitted}>
-          <label htmlFor="new-todo">Add New Todo</label>
-          <input
-            id="new-todo"
-            name="newTodo"
-            onChange={this.handleTodoChange}
-            value={this.state.newTodo}
-            style={{ border: "1px solid black" }}
-          />
-          <button type="submit">Add Todo Item</button>
-        </form>
+        <NewTodoForm
+          newTodo={this.state.newTodo}
+          formSubmitted={this.formSubmitted.bind(this)}
+          handleTodoChange={this.handleTodoChange.bind(this)}
+        />
         <button onClick={() => this.allDone()}>All Done</button>
         <button onClick={() => this.removeAll()}>Remove All</button>
-        <ul>
-          {this.state.todos.map((todo, index) => {
-            return (
-              <li key={todo.title}>
-                <input
-                  type="checkbox"
-                  onChange={e => this.toggleTodoDone(e, index)}
-                  checked={todo.done}
-                />
-                {/* <span
-                  style={{
-                    textDecoration: todo.done ? "line-through" : "inherit"
-                  }}
-                >
-                  {todo.title}
-                </span> */}
-                <span className={todo.done ? "done" : null}>{todo.title}</span>
-                <button onClick={() => this.removeTodo(index)}>Remove</button>
-              </li>
-            );
-          })}
-        </ul>
+        <TodoList
+          todos={this.state.todos}
+          toggleTodoDone={this.toggleTodoDone.bind(this)}
+          removeTodo={this.removeTodo.bind(this)}
+        />
       </div>
     );
   }
